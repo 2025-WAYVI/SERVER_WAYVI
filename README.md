@@ -1,17 +1,69 @@
 # Azaping Server
 
-UUID 기반 건강 데이터 수집 및 관리 서버
+건강 데이터 수집 및 AI 분석을 위한 멀티 서버 프로젝트
+
+## 프로젝트 구조
+
+```
+Azaping_server_new/
+├── ai-server/              # AI 서버 (FastAPI + TensorFlow)
+│   ├── app.py             # AI 분석 API
+│   └── model/             # 머신러닝 모델
+├── spring-server/          # Spring Boot 서버
+│   ├── src/               # Java 소스 코드
+│   ├── build.gradle       # Gradle 설정
+│   ├── gradlew           # Gradle Wrapper
+│   └── 기타 Spring Boot 파일들
+├── README.md              # 프로젝트 문서
+└── 기타 설정 파일들
+```
+
+## 서버별 역할
+
+### 🤖 AI Server (`ai-server/`)
+- **기술 스택**: FastAPI + TensorFlow
+- **역할**: 건강 데이터 이상 탐지 및 AI 분석
+- **포트**: 8000 (기본값)
+
+### 🌱 Spring Server (`spring-server/`)
+- **기술 스택**: Spring Boot + JPA + MySQL
+- **역할**: UUID 기반 사용자 관리 및 건강 데이터 수집
+- **포트**: 8080 (기본값)
 
 ## 개요
 
-이 프로젝트는 클라이언트 디바이스에서 생성한 UUID를 기반으로 사용자를 식별하고, 건강 데이터를 수집하여 저장하는 Spring Boot 서버입니다.
+이 프로젝트는 클라이언트 디바이스에서 생성한 UUID를 기반으로 사용자를 식별하고, 건강 데이터를 수집하여 AI 분석을 수행하는 멀티 서버 시스템입니다.
 
 ## 주요 기능
 
 - **UUID 기반 사용자 등록**: 클라이언트 UUID를 서버 userId로 변환
 - **실시간 건강 데이터 수집**: 5분마다 심박수 데이터 수신
 - **일일 건강 데이터 수집**: 하루 1번 종합 건강 데이터 수신
+- **AI 기반 이상 탐지**: 수집된 데이터를 AI 서버로 전송하여 분석
 - **데이터 유효성 검증**: 사용자 및 데이터 타입별 필수 필드 검증
+
+## 실행 방법
+
+### 1. Spring Boot 서버 실행
+
+```bash
+cd spring-server
+./gradlew bootRun
+```
+
+### 2. AI 서버 실행
+
+```bash
+cd ai-server
+python app.py
+```
+
+### 3. API 문서 확인
+
+- **Spring Boot Swagger**: http://localhost:8080/swagger-ui.html
+- **AI Server**: http://localhost:8000/docs
+
+## Spring Boot 서버 상세 정보
 
 ## 기술 스택
 
@@ -158,47 +210,6 @@ src/main/java/spring_server/Azaping/
 - `respiratory_rate`: 호흡수
 - `body_temperature`: 체온
 - `created_at`: 데이터 생성 시각
-
-## 실행 방법
-
-### 1. 데이터베이스 설정
-
-MySQL 서버를 실행하고 `azaping` 데이터베이스를 생성합니다:
-
-```sql
-CREATE DATABASE azaping CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### 2. 애플리케이션 설정
-
-`src/main/resources/application.properties`에서 데이터베이스 연결 정보를 확인/수정합니다:
-
-```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/azaping
-spring.datasource.username=root
-spring.datasource.password=qwer1234!
-```
-
-### 3. 애플리케이션 실행
-
-```bash
-./gradlew bootRun
-```
-
-또는
-
-```bash
-./gradlew build
-java -jar build/libs/Azaping-0.0.1-SNAPSHOT.jar
-```
-
-### 4. API 문서 확인
-
-서버 실행 후 다음 URL에서 Swagger UI를 통해 API 문서를 확인할 수 있습니다:
-
-```
-http://localhost:8080/swagger-ui.html
-```
 
 ## 오류 코드
 

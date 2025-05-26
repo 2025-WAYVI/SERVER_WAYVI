@@ -2,26 +2,30 @@ package spring_server.Azaping.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.servers.Server;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
+/**
+ * Swagger UI 설정
+ * OpenAPI 문서 크기를 최소화하여 헤더 크기 문제 해결
+ */
 @Configuration
 public class SwaggerConfig {
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
                         .title("Azaping API")
-                        .description("아자핑 REST API 서버")
-                        .version("v1.0.0")
-                        .contact(new Contact()
-                                .name("Azaping Team")
-                                .email("kcl2502@dgu.ac.kr"))
-                        .license(new License()
-                                .name("Apache 2.0")
-                                .url("http://www.apache.org/licenses/LICENSE-2.0.html")));
+                        .version("1.0")
+                        .description("UUID 기반 건강 데이터 수집 API"))
+                .servers(List.of(
+                        new Server()
+                                .url("http://localhost:8080")
+                                .description("로컬 개발 서버")
+                ));
     }
 } 

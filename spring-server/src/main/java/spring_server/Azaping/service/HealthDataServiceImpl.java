@@ -69,12 +69,11 @@ public class HealthDataServiceImpl implements HealthDataService {
             // 실시간 데이터: 심박수 필수
             if (request.getHeartRate() == null) {
                 throw new IllegalArgumentException("실시간 데이터에서 심박수는 필수입니다.");
-        }
-        } else if (request.getDataType() == HealthDataRequest.DataType.DAILY) {
-            // 일일 데이터: 걸음 수 필수
-            if (request.getStepCount() == null) {
-                throw new IllegalArgumentException("일일 데이터에서 걸음 수는 필수입니다.");
             }
+        } else if (request.getDataType() == HealthDataRequest.DataType.DAILY) {
+            // 일일 데이터: 모든 필드 null 허용
+            // 클라이언트에서 측정 가능한 데이터만 전송하도록 유연하게 처리
+            log.debug("일일 데이터 수신: 모든 필드 null 허용");
         }
     }
     

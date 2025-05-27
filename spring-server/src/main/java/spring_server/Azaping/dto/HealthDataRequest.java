@@ -38,7 +38,7 @@ public class HealthDataRequest {
     
     // === 일일 데이터 (하루 1번) ===
     /**
-     * 걸음 수 - DAILY 타입에서 필수
+     * 걸음 수 - DAILY 타입에서 선택적 (null 허용)
      */
     private Integer stepCount;
     

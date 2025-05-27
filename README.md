@@ -6,9 +6,19 @@
 
 ```
 Azaping_server_new/
-├── ai-server/              # AI 서버 (FastAPI + TensorFlow)
-│   ├── app.py             # AI 분석 API
-│   └── model/             # 머신러닝 모델
+├── ai-server/                          # AI 서버 (FastAPI + TensorFlow)
+│   ├── main.py                       # FastAPI 앱 실행 파일
+│   ├── models/
+│   │   ├── analyzer.py                 # 이상 탐지 로직
+│   │   ├── reporter.py                 # 건강 리포트 생성 로직
+│   ├── schemas/
+│   │   ├── request.py                # 요청 스키마 (Pydantic)
+│   │   ├── response.py                 # 응답 스키마 (Pydantic)
+│   ├── utils/
+│   │   ├── preprocessing.py           # 데이터 전처리 함수
+│   │   ├── helpers.py                # 보조 함수 
+│   ├── requirements.txt                # AI 서버 패키지 목록
+│   └── README.md
 ├── spring-server/          # Spring Boot 서버
 │   ├── src/               # Java 소스 코드
 │   ├── build.gradle       # Gradle 설정

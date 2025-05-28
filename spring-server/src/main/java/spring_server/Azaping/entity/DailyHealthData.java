@@ -7,15 +7,14 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * 건강 데이터를 저장하는 엔티티
- * 실시간 데이터(REALTIME)와 일일 데이터(DAILY) 모두 저장
+ * 일일 건강 데이터 엔티티 (하루 1번 수집)
  */
 @Entity
-@Table(name = "health_data")
+@Table(name = "daily_health_data")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HealthData {
+public class DailyHealthData {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,7 @@ public class HealthData {
      * 사용자 ID (User 엔티티의 userId와 연결)
      */
     @Column(nullable = false)
-    private String userId;
+    private Long userId;
     
     /**
      * 데이터 제출 시각
@@ -34,103 +33,102 @@ public class HealthData {
     private LocalDateTime timestamp;
     
     /**
-     * 데이터 타입 (REALTIME 또는 DAILY)
-     */
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DataType dataType;
-    
-    // === 실시간 데이터 (5분마다) ===
-    /**
-     * 심박수 (bpm)
-     */
-    private Double heartRate;
-    
-    // === 일일 데이터 (하루 1번) ===
-    /**
      * 걸음 수
      */
+    @Column(nullable = false)
     private Integer stepCount;
     
     /**
      * 걸음 수 측정 시작 시각
      */
+    @Column(nullable = false)
     private LocalDateTime stepCountStartDate;
     
     /**
      * 걸음 수 측정 종료 시각
      */
+    @Column(nullable = false)
     private LocalDateTime stepCountEndDate;
     
     /**
-     * 달리기 속도 (km/h)
+     * 달리기 속도 (km/h) - JSON 배열로 저장
      */
-    private Double runningSpeed;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String runningSpeed;
     
     /**
      * 달리기 측정 시작 시각
      */
+    @Column(nullable = false)
     private LocalDateTime runningSpeedStartDate;
     
     /**
      * 달리기 측정 종료 시각
      */
+    @Column(nullable = false)
     private LocalDateTime runningSpeedEndDate;
     
     /**
      * 기초 대사량 (kcal)
      */
+    @Column(nullable = false)
     private Double basalEnergyBurned;
     
     /**
-     * 활동으로 소모한 칼로리 (kcal)
+     * 활동 에너지 소모량 (kcal)
      */
+    @Column(nullable = false)
     private Double activeEnergyBurned;
     
     /**
      * 활동 칼로리 측정 시작 시각
      */
+    @Column(nullable = false)
     private LocalDateTime activeEnergyBurnedStartDate;
     
     /**
      * 활동 칼로리 측정 종료 시각
      */
+    @Column(nullable = false)
     private LocalDateTime activeEnergyBurnedEndDate;
     
     /**
-     * 신장 (cm)
+     * 신장 (cm) - 선택적
      */
     private Double height;
     
     /**
-     * 체중 (kg)
+     * 체중 (kg) - 선택적
      */
     private Double bodyMass;
     
     /**
-     * 산소포화도 (%)
+     * 산소포화도 (%) - JSON 배열로 저장 (8개 값)
      */
-    private Double oxygenSaturation;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String oxygenSaturation;
     
     /**
-     * 수축기 혈압 (mmHg)
+     * 수축기 혈압 (mmHg) - 선택적
      */
-    private Integer bloodPressureSystolic;
+    private Double bloodPressureSystolic;
     
     /**
-     * 이완기 혈압 (mmHg)
+     * 이완기 혈압 (mmHg) - 선택적
      */
-    private Integer bloodPressureDiastolic;
+    private Double bloodPressureDiastolic;
     
     /**
-     * 호흡수 (회/분)
+     * 호흡수 (회/분) - JSON 배열로 저장 (8개 값)
      */
-    private Integer respiratoryRate;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String respiratoryRate;
     
     /**
-     * 체온 (℃)
+     * 체온 (℃) - JSON 배열로 저장 (8개 값)
      */
-    private Double bodyTemperature;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String bodyTemperature;
     
     /**
      * 데이터 생성 시각
@@ -141,13 +139,5 @@ public class HealthData {
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-    }
-    
-    /**
-     * 데이터 타입 열거형
-     */
-    public enum DataType {
-        REALTIME,   // 실시간 데이터 (5분마다)
-        DAILY       // 일일 데이터 (하루 1번)
     }
 } 

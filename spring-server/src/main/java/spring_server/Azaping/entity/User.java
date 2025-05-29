@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 사용자 엔티티
@@ -28,6 +29,19 @@ public class User {
     
     @Column(nullable = false)
     private LocalDateTime lastActiveAt;
+
+    // 연관관계 매핑 (성능상 필요할 때만 사용)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RealtimeHealthData> realtimeHealthDataList;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DailyHealthData> dailyHealthDataList;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<HealthReport> healthReports;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EmergencyRequest> emergencyRequests;
     
     @PrePersist
     protected void onCreate() {

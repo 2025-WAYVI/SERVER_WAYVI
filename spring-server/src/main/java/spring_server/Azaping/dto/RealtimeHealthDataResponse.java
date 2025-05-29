@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * 실시간 건강 데이터 제출 응답 DTO
@@ -30,6 +31,7 @@ public class RealtimeHealthDataResponse {
      * 이벤트 타입 (AI 분석 결과)
      * 가능한 값: "낙상/충돌", "심박 이상", "과로", "정상"
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "이벤트 타입", example = "정상", allowableValues = {"낙상/충돌", "심박 이상", "과로", "정상"})
     private String event;
     

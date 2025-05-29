@@ -2,6 +2,7 @@ package spring_server.Azaping.dto;
 
 import lombok.Data;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * 구조요청 응답 DTO
@@ -25,6 +26,7 @@ public class EmergencyResponse {
     /**
      * 구조요청 고유 ID
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "구조요청 고유 ID", example = "emergency_12345")
     private String requestId;
     
@@ -46,6 +48,7 @@ public class EmergencyResponse {
         EmergencyResponse response = new EmergencyResponse();
         response.setStatus("error");
         response.setMessage(message);
+        // requestId는 설정하지 않음 (null) - JSON에서 제외됨
         return response;
     }
 } 

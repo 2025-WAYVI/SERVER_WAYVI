@@ -2,6 +2,7 @@ package spring_server.Azaping.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -18,13 +19,16 @@ public class EmailService {
     
     private final JavaMailSender mailSender;
     
+    @Value("${emergency.mail.recipient}")
+    private String emergencyMailRecipient;
+    
     /**
      * 구조요청 이메일 전송
      */
     public void sendEmergencyEmail(Long userId, String event, Double latitude, Double longitude, LocalDateTime timestamp) {
         try {
             SimpleMailMessage message = new SimpleMailMessage();
-            message.setTo("control-center@azaping.com"); // 관제센터 이메일
+            message.setTo(emergencyMailRecipient);
             message.setSubject("[긴급] 구조요청 - " + event);
             
             String body = String.format(

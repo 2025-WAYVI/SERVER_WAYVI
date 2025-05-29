@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import io.swagger.v3.oas.annotations.media.Schema;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 /**
  * UUID 로그인 응답 DTO
@@ -23,12 +24,14 @@ public class UuidLoginResponse {
     /**
      * 발급된 사용자 ID
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "발급된 사용자 ID", example = "1")
     private Long userId;
     
     /**
      * 응답 메시지 (오류 시)
      */
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     @Schema(description = "응답 메시지", example = "로그인 성공")
     private String message;
     

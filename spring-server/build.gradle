@@ -54,3 +54,15 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+// Elastic Beanstalk 배포를 위한 JAR 파일명 설정
+jar {
+	archiveBaseName = 'azaping-server'
+	archiveVersion = '1.0.0'
+	enabled = false
+}
+
+bootJar {
+	archiveBaseName = 'azaping-server'
+	archiveVersion = '1.0.0'
+}

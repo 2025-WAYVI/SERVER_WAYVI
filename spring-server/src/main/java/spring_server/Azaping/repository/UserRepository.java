@@ -1,13 +1,12 @@
 package spring_server.Azaping.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import spring_server.Azaping.entity.User;
 import java.util.Optional;
 
 /**
- * 사용자 데이터 접근을 위한 Repository
+ * 사용자 리포지토리
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -24,12 +23,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * @param userId 서버에서 발급한 사용자 ID
      * @return 사용자 정보
      */
-    Optional<User> findByUserId(String userId);
+    Optional<User> findByUserId(Long userId);
     
     /**
-     * 다음 사용자 ID 번호 조회 (user_001, user_002 형식을 위함)
-     * @return 다음 사용자 번호
+     * userId 존재 여부 확인
      */
-    @Query("SELECT COALESCE(MAX(CAST(SUBSTRING(u.userId, 6) AS int)), 0) + 1 FROM User u WHERE u.userId LIKE 'user_%'")
-    Integer findNextUserNumber();
+    boolean existsByUserId(Long userId);
 } 

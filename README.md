@@ -4,29 +4,25 @@
 
 ## 프로젝트 구조
 
+
 ```
 Azaping_server_new/
-├── ai-server/                          # AI 서버 (FastAPI + TensorFlow)
-│   ├── main.py                       # FastAPI 앱 실행 파일
-│   ├── models/
-│   │   ├── analyzer.py                 # 이상 탐지 로직
-│   │   ├── reporter.py                 # 건강 리포트 생성 로직
-│   ├── schemas/
-│   │   ├── request.py                # 요청 스키마 (Pydantic)
-│   │   ├── response.py                 # 응답 스키마 (Pydantic)
-│   ├── utils/
-│   │   ├── preprocessing.py           # 데이터 전처리 함수
-│   │   ├── helpers.py                # 보조 함수 
-│   ├── requirements.txt                # AI 서버 패키지 목록
-│   └── README.md
-├── spring-server/          # Spring Boot 서버
+├── ai-server/              # AI 서버 (FastAPI + TensorFlow)
+│   ├── app.py             # AI 분석 API
+│   └── model/             # 머신러닝 모델
+├── spring-server/          # Spring Boot 서버 (Gradle 프로젝트)
 │   ├── src/               # Java 소스 코드
-│   ├── build.gradle       # Gradle 설정
-│   ├── gradlew           # Gradle Wrapper
+│   ├── build.gradle       # Gradle 빌드 설정
+│   ├── gradlew           # Gradle Wrapper (Unix/Linux)
+│   ├── gradlew.bat       # Gradle Wrapper (Windows)
 │   └── 기타 Spring Boot 파일들
+├── pom.xml                # Maven 부모 프로젝트 (참조용)
 ├── README.md              # 프로젝트 문서
 └── 기타 설정 파일들
 ```
+
+
+**주의**: 이 프로젝트는 **Gradle**을 빌드 시스템으로 사용합니다. 루트의 `pom.xml`은 참조용이며, 실제 빌드는 `spring-server/` 디렉토리에서 Gradle로 수행합니다.
 
 ## 서버별 역할
 
@@ -36,7 +32,7 @@ Azaping_server_new/
 - **포트**: 8000 (기본값)
 
 ### 🌱 Spring Server (`spring-server/`)
-- **기술 스택**: Spring Boot + JPA + MySQL
+- **기술 스택**: Spring Boot + JPA + MySQL + Gradle
 - **역할**: UUID 기반 사용자 관리 및 건강 데이터 수집
 - **포트**: 8080 (기본값)
 
@@ -54,11 +50,30 @@ Azaping_server_new/
 
 ## 실행 방법
 
+### 전제 조건
+- Java 17 이상
+- MySQL 8.0 이상
+- Python 3.8 이상 (AI 서버용)
+
 ### 1. Spring Boot 서버 실행
 
+#### 개발 환경에서 실행
 ```bash
 cd spring-server
 ./gradlew bootRun
+```
+
+#### 프로덕션 빌드 및 실행
+```bash
+cd spring-server
+./gradlew build
+java -jar build/libs/Azaping-0.0.1-SNAPSHOT.jar
+```
+
+#### Windows에서 실행
+```cmd
+cd spring-server
+gradlew.bat bootRun
 ```
 
 ### 2. AI 서버 실행

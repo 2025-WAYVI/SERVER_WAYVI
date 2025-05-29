@@ -7,36 +7,42 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 /**
- * 사용자 엔티티
+ * 구조요청 엔티티
  */
 @Entity
-@Table(name = "users")
+@Table(name = "emergency_requests")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class EmergencyRequest {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long id;
     
     @Column(unique = true, nullable = false)
-    private String uuid;
+    private String requestId;
+    
+    @Column(nullable = false)
+    private Long userId;
+    
+    @Column(nullable = false)
+    private String event;
+    
+    @Column(nullable = false)
+    private Double latitude;
+    
+    @Column(nullable = false)
+    private Double longitude;
+    
+    @Column(nullable = false)
+    private LocalDateTime timestamp;
     
     @Column(nullable = false)
     private LocalDateTime createdAt;
     
-    @Column(nullable = false)
-    private LocalDateTime lastActiveAt;
-    
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-        lastActiveAt = LocalDateTime.now();
-    }
-    
-    @PreUpdate
-    protected void onUpdate() {
-        lastActiveAt = LocalDateTime.now();
     }
 } 

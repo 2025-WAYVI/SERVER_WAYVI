@@ -4,6 +4,7 @@
 
 ## 프로젝트 구조
 
+
 ```
 Azaping_server_new/
 ├── ai-server/              # AI 서버 (FastAPI + TensorFlow)
@@ -19,6 +20,7 @@ Azaping_server_new/
 ├── README.md              # 프로젝트 문서
 └── 기타 설정 파일들
 ```
+
 
 **주의**: 이 프로젝트는 **Gradle**을 빌드 시스템으로 사용합니다. 루트의 `pom.xml`은 참조용이며, 실제 빌드는 `spring-server/` 디렉토리에서 Gradle로 수행합니다.
 

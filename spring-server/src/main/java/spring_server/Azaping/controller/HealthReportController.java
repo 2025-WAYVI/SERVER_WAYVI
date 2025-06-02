@@ -120,6 +120,12 @@ public class HealthReportController {
             @Parameter(description = "조회할 날짜 (YYYY-MM-DD 형식)", example = "2024-07-29")
             @PathVariable("date") String date) {
         try {
+            // userId가 4인 경우 테스트 사용자 자동 생성
+            if (userId.equals(4L)) {
+                userService.ensureTestUser();
+                log.info("테스트 사용자 (userId: 4) 건강리포트 요청");
+            }
+            
             // 사용자 존재 여부 확인
             if (!userService.existsByUserId(userId)) {
                 Map<String, Object> errorResponse = new HashMap<>();

@@ -64,6 +64,34 @@ public class AIService {
         Map<String, Object> report = new HashMap<>();
         report.put("userId", userId);
         
+        // userId가 4인 경우 테스트용 특별 데이터 반환
+        if ("4".equals(userId)) {
+            log.info("테스트 사용자 (userId: 4) 특별 건강 리포트 생성");
+            
+            report.put("summary", "건강유지형");
+            report.put("stepCount", 12500);
+            report.put("stepCountChange", 15); // +15% 증가
+            
+            report.put("averageRunningSpeed", 8.5);
+            report.put("runningSpeedChange", 0.7); // +0.7 km/h 증가
+            
+            report.put("averageHeartRate", 72);
+            report.put("heartRateChange", -3); // -3 bpm 감소
+            
+            report.put("averageOxygenSaturation", 98);
+            report.put("averageRespiratoryRate", 16);
+            report.put("averageBodyTemperature", 36.6);
+            
+            report.put("activeEnergyBurned", 520);
+            report.put("activeEnergyChange", 12); // +12% 증가
+            
+            report.put("warning", List.of()); // 경고 없음
+            
+            log.info("테스트용 건강 리포트 생성 완료 - summary: 건강유지형");
+            return report;
+        }
+        
+        // 일반 사용자를 위한 기존 Mock 로직
         // Mock 건강 상태 분류
         String summary;
         if (stepCount > 8000 && activeEnergyBurned > 400) {

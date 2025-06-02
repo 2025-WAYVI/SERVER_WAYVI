@@ -83,6 +83,44 @@ public class HealthDataService {
      * 건강 리포트 조회
      */
     public Map<String, Object> getHealthReport(Long userId, LocalDateTime date) {
+        // userId가 4인 경우 테스트용 건강리포트 생성 (DB 데이터 없어도 가능)
+        if (userId.equals(4L)) {
+            log.info("테스트 사용자 (userId: 4) 건강리포트 생성 - 실제 데이터 없이 mock 데이터 사용");
+            
+            try {
+                // 테스트용 mock 데이터로 리포트 생성
+                List<Double> mockRunningSpeed = List.of(8.0, 8.5, 9.0, 8.2, 7.8);
+                List<Double> mockHeartRate = List.of(70.0, 72.0, 69.0, 74.0, 71.0);
+                List<Double> mockOxygenSaturation = List.of(98.0, 98.5, 97.8, 98.2, 98.1);
+                List<Double> mockRespiratoryRate = List.of(16.0, 15.0, 17.0, 16.0, 15.5);
+                List<Double> mockBodyTemperature = List.of(36.5, 36.6, 36.4, 36.7, 36.5);
+                
+                Map<String, Object> report = aiService.generateHealthReport(
+                    userId.toString(), date.toLocalDate().toString(),
+                    12500, // stepCount
+                    mockRunningSpeed,
+                    1800.0, // basalEnergyBurned
+                    520.0, // activeEnergyBurned
+                    mockHeartRate, mockOxygenSaturation, mockRespiratoryRate, mockBodyTemperature
+                );
+                
+                // 응답 형식에 맞게 변환
+                Map<String, Object> response = new HashMap<>();
+                response.put("status", "success");
+                response.put("userId", userId);
+                response.put("date", date.toLocalDate().toString());
+                response.putAll(report);
+                
+                log.info("테스트용 건강리포트 생성 완료 - userId: {}", userId);
+                return response;
+                
+            } catch (Exception e) {
+                log.error("테스트용 건강 리포트 생성 실패 - userId: {}, error: {}", userId, e.getMessage());
+                return null;
+            }
+        }
+        
+        // 일반 사용자를 위한 기존 로직
         Optional<DailyHealthData> dailyDataOpt = dailyHealthDataRepository.findByUserIdAndDate(userId, date);
         
         if (dailyDataOpt.isEmpty()) {

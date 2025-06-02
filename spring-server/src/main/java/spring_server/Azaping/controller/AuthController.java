@@ -129,4 +129,18 @@ public class AuthController {
                 .body(UuidLoginResponse.error("서버 내부 오류가 발생했습니다."));
         }
     }
+
+    /**
+     * 테스트용 GET 엔드포인트 - 외부 봇들의 GET 요청 처리
+     */
+    @GetMapping("/uuid-login")
+    public ResponseEntity<Map<String, Object>> uuidLoginInfo() {
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "POST 요청으로 UUID와 함께 호출해주세요.");
+        response.put("method", "POST");
+        response.put("endpoint", "/api/v1/auth/uuid-login");
+        response.put("body", Map.of("uuid", "your-device-uuid-here"));
+        
+        return ResponseEntity.ok(response);
+    }
 } 

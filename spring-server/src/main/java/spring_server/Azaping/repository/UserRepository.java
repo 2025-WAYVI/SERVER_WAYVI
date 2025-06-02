@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import spring_server.Azaping.entity.User;
 import java.util.Optional;
+import java.util.List;
 
 /**
  * 사용자 리포지토리
@@ -29,4 +30,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
      * userId 존재 여부 확인
      */
     boolean existsByUserId(Long userId);
+    
+    /**
+     * 최근 생성된 사용자 5명 조회
+     */
+    List<User> findTop5ByOrderByCreatedAtDesc();
 } 

@@ -51,4 +51,27 @@ public class UserService {
     public boolean existsByUserId(Long userId) {
         return userRepository.existsByUserId(userId);
     }
+    
+    /**
+     * 테스트 사용자 생성 (userId가 4가 되도록)
+     */
+    public void ensureTestUser() {
+        if (!userRepository.existsByUserId(4L)) {
+            log.info("테스트 사용자 (userId: 4) 생성 중...");
+            
+            // userId 4까지의 더미 사용자들 생성
+            for (int i = 1; i <= 4; i++) {
+                if (!userRepository.existsByUserId((long) i)) {
+                    User testUser = new User();
+                    testUser.setUuid("test-uuid-" + i);
+                    testUser.setCreatedAt(LocalDateTime.now());
+                    testUser.setLastActiveAt(LocalDateTime.now());
+                    
+                    User savedUser = userRepository.save(testUser);
+                    log.info("테스트 사용자 생성 완료 - uuid: {}, userId: {}", 
+                            testUser.getUuid(), savedUser.getUserId());
+                }
+            }
+        }
+    }
 } 

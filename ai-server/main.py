@@ -12,6 +12,10 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 detector = MultiDetector()
 reporter = HealthReporter()
 
+@app.get("/")
+def root():
+    return {"message": "WAYVI AI 서버 정상 작동 중 🚀"}
+
 @app.post("/analyze", response_model=AnalyzeResponse)
 async def analyze(data: AnalyzeRequest):
 

@@ -5,10 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
- * 사용자 정보를 저장하는 엔티티
- * UUID 기반 사용자 식별 시스템
+ * 사용자 엔티티
  */
 @Entity
 @Table(name = "users")
@@ -19,30 +19,29 @@ public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long userId;
     
-    /**
-     * 클라이언트에서 생성한 UUID (고유 식별자)
-     */
     @Column(unique = true, nullable = false)
     private String uuid;
     
-    /**
-     * 서버에서 발급하는 사용자 ID (user_001, user_002 형식)
-     */
-    @Column(unique = true, nullable = false)
-    private String userId;
-    
-    /**
-     * 사용자 등록 시각
-     */
     @Column(nullable = false)
     private LocalDateTime createdAt;
     
-    /**
-     * 마지막 활동 시각
-     */
+    @Column(nullable = false)
     private LocalDateTime lastActiveAt;
+
+    // 연관관계 매핑 (성능상 필요할 때만 사용)
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RealtimeHealthData> realtimeHealthDataList;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DailyHealthData> dailyHealthDataList;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<HealthReport> healthReports;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<EmergencyRequest> emergencyRequests;
     
     @PrePersist
     protected void onCreate() {

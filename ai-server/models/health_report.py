@@ -28,12 +28,11 @@ class HealthReportModel:
         self.scaler = StandardScaler()
         X_scaled = self.scaler.fit_transform(X)
 
-        self.model = KMeans(n_clusters=4, random_state=42)
+        self.model = KMeans(n_clusters=3, random_state=42)
         df['cluster'] = self.model.fit_predict(X_scaled)
         return df
 
     def predict(self, X):
-        # predict시에는 fit된 scaler 또는 로드된 scaler 사용
         scaler_to_use = self.scaler_fit if self.scaler_fit is not None else self.scaler
 
         if scaler_to_use:

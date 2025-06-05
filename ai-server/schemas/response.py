@@ -3,12 +3,12 @@ from typing import List, Optional
 
 # 이상 탐지 응답 스키마
 class AnalyzeResponse(BaseModel):
-    userId: str
+    userId: int
     event: str  
 
 # 건강 리포트 응답 스키마
 class ReportResponse(BaseModel):
-    userId: str
+    userId: int
     summary: str 
     stepCount: float
     stepCountChange: float

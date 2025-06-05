@@ -3,7 +3,7 @@ from typing import List
 
 # 이상 탐지 요청 스키마
 class AnalyzeRequest(BaseModel):
-    userId: str
+    userId: int 
     timestamp: str
     accel: List[List[float]]
     gyro: List[List[float]]
@@ -14,7 +14,7 @@ class AnalyzeRequest(BaseModel):
 
 # 건강 리포트 요청 스키마
 class ReportRequest(BaseModel):
-    userId: str
+    userId: int
     date: str
     stepCount: float
     runningSpeed: float

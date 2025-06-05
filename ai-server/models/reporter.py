@@ -10,9 +10,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 class HealthReporter:
     cluster_summary_map = {
         0: "건강유지형",
-        1: "저활동형",
-        2: "과로주의형",
-        3: "위험신호형"
+        1: "과로주의형",
+        2: "저활동형",
     }
 
     def __init__(self):
@@ -74,7 +73,12 @@ class HealthReporter:
 
         features_df = pd.DataFrame([features])
         cluster_label = self.health_report_model.predict(features_df)[0]
-        summary = self.cluster_summary_map.get(cluster_label, "알 수 없음")
+        warnings = self.generate_warnings(current_data)
+
+        if warnings:  # 경고가 하나라도 있으면 위험신호형으로 
+            summary = self.cluster_summary_map.get(3) 
+        else:
+            summary = self.cluster_summary_map.get(cluster_label, "알 수 없음")
 
         avg_heart_rate = int(np.mean(current_data.get("heartRate", [0])))
         avg_oxygen = int(np.mean(current_data.get("oxygenSaturation", [0])))
@@ -91,8 +95,6 @@ class HealthReporter:
         running_speed_change = self.compute_change("runningSpeed", avg_running_speed)
         heart_rate_change = self.compute_change("averageHeartRate", avg_heart_rate)
         active_energy_change = self.compute_change("activeEnergyBurned", current_data.get("activeEnergyBurned", 0))
-
-        warnings = self.generate_warnings(current_data)
 
         report = {
             "userId": user_id,
